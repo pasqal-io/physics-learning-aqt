@@ -41,6 +41,7 @@ dependencies = [
   "pytest",
   "pytest-cov",
   "pytest-xdist",
+  "pytest-httpx",
   "nbconvert",
   "ipykernel",
   "pre-commit",
