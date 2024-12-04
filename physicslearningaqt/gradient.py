@@ -13,8 +13,7 @@ def main() -> None:
 
     backend_name = "offline_simulator_no_noise"
 
-    provider = AQTProvider()
-    backend = provider.get_backend(backend_name)
+    backend = AQTProvider().get_backend(backend_name)
 
     estimator = AQTEstimator(backend)
     estimator.set_transpile_options(optimization_level=3)  # embedded transpilation
