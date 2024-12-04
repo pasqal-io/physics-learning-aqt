@@ -4,7 +4,7 @@ import numpy as np
 from qiskit.quantum_info import SparsePauliOp
 
 from physicslearningaqt.ansatz import HEA
-from physicslearningaqt.gradient import GradientPSR
+from physicslearningaqt.gradient import BackendName, GradientPSR
 
 
 def main() -> None:
@@ -12,7 +12,7 @@ def main() -> None:
     n_qubits = 3
     n_layers = 2
 
-    g_psr = GradientPSR()
+    g_psr = GradientPSR(BackendName.OFFLINE_SIM_NOISE)
 
     hea = HEA(n_qubits, n_layers)
 

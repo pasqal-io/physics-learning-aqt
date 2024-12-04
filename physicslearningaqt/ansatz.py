@@ -25,4 +25,4 @@ class HEA:
         return self._circ
 
     def get_random_params(self, rng: np.random.Generator) -> np.ndarray:
-        return rng.random((1, len(self._params))) * 2 * np.pi
+        return rng.random((1, len(self._params))) * 2 * np.pi - np.pi
