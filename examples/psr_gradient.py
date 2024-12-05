@@ -12,7 +12,7 @@ def main() -> None:
     n_qubits = 3
     n_layers = 2
 
-    g_psr = GradientPSR(BackendName.OFFLINE_SIM_NOISE)
+    g_psr = GradientPSR(backend_name=BackendName.OFFLINE_SIM_NO_NOISE, circuit_transpile_level=3)
 
     hea = HEA(n_qubits, n_layers)
 

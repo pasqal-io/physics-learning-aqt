@@ -1,8 +1,10 @@
 from __future__ import annotations
 
 from enum import Enum, auto
+from typing import Any
 
 import numpy as np
+from pydantic import BaseModel, Field, field_validator
 from qiskit.circuit import QuantumCircuit
 from qiskit.quantum_info import SparsePauliOp
 from qiskit_algorithms.gradients import ParamShiftEstimatorGradient
@@ -21,18 +23,23 @@ _backend_name_mapping = {
 }
 
 
-# TODO convert to a pydantic BaseModel and include validation
-class GradientPSR:
-    def __init__(
-        self,
-        backend_name: BackendName,
-        circuit_transpile_level: int = 3,
-    ) -> None:
+class GradientPSR(BaseModel):
+    backend_name: BackendName
+    circuit_transpile_level: int = Field(default=3, strict=True)
+
+    @field_validator("circuit_transpile_level")
+    @classmethod
+    def must_be_a_qiskit_transiple_level(cls, v: int) -> int:
+        allowed_transpile_levels = [0, 1, 2, 3]
+        assert v in allowed_transpile_levels, f"{v} is not a qiskit level for transiplation."
+        return v
+
+    def model_post_init(self, __context: Any) -> None:
         """Sets the backend and estimator with the right transpile level for the circuit."""
-        self._backend = AQTProvider().get_backend(_backend_name_mapping[backend_name])
+        self._backend = AQTProvider().get_backend(_backend_name_mapping[self.backend_name])
 
         self._estimator = AQTEstimator(self._backend)
-        self._estimator.set_transpile_options(optimization_level=circuit_transpile_level)
+        self._estimator.set_transpile_options(optimization_level=self.circuit_transpile_level)
         self._gradient_estimator = ParamShiftEstimatorGradient(self._estimator)
 
     def run(
