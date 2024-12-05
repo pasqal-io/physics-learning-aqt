@@ -25,7 +25,6 @@ _backend_name_mapping = {
 class GradientPSR:
     def __init__(
         self,
-        # TODO make backend name an Enum
         backend_name: BackendName,
         circuit_transpile_level: int = 3,
     ) -> None:
