@@ -4,7 +4,7 @@ from enum import Enum, auto
 from typing import Any
 
 import numpy as np
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field
 from qiskit.circuit import QuantumCircuit
 from qiskit.quantum_info import SparsePauliOp
 from qiskit_algorithms.gradients import ParamShiftEstimatorGradient
@@ -25,14 +25,7 @@ _backend_name_mapping = {
 
 class GradientPSR(BaseModel):
     backend_name: BackendName
-    circuit_transpile_level: int = Field(default=3, strict=True)
-
-    @field_validator("circuit_transpile_level")
-    @classmethod
-    def must_be_a_qiskit_transiple_level(cls, v: int) -> int:
-        allowed_transpile_levels = [0, 1, 2, 3]
-        assert v in allowed_transpile_levels, f"{v} is not a qiskit level for transiplation."
-        return v
+    circuit_transpile_level: int = Field(default=3, ge=0, le=3, strict=True)
 
     def model_post_init(self, __context: Any) -> None:
         """Sets the backend and estimator with the right transpile level for the circuit."""
