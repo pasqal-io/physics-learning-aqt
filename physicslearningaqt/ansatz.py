@@ -18,8 +18,6 @@ class HEA:
             for q0, q1 in zip(range(n_qubits - 1), range(1, n_qubits)):
                 self._circ.cz(q0, q1)
 
-        self._circ.measure_all()
-
     @property
     def circuit(self) -> QuantumCircuit:
         return self._circ
