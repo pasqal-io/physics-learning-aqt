@@ -40,8 +40,8 @@ class GradientPSR(BaseModel):
         quantum_circuit: QuantumCircuit,
         observable: SparsePauliOp,
         parameter_values: np.ndarray,
-    ) -> np.ndarray:
-        return (
+    ) -> list[np.ndarray]:
+        return (  # type: ignore[no-any-return]
             self._gradient_estimator.run(quantum_circuit, observable, parameter_values)
             .result()
             .gradients
