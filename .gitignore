@@ -49,3 +49,6 @@ runs/
 
 # Mkdocs
 site/
+
+# Project directories
+data/
